@@ -5,6 +5,27 @@ class Game
     :auction_count,
     :auction_tiles
 
+  SUN_DISTRIBUTION = {
+    3 => [
+      [13, 8, 5, 2],
+      [12, 9, 6, 3],
+      [11, 10, 7, 4]
+    ],
+    4 => [
+      [13, 6, 2],
+      [12, 7, 3],
+      [11, 8, 4],
+      [10, 9, 5]
+    ],
+    5 => [
+      [16, 7, 2],
+      [15, 8, 3],
+      [14, 9, 4],
+      [13, 10, 5],
+      [12, 11, 6]
+    ]
+  }
+
   def initialize(
     player_count,
     current_player,
