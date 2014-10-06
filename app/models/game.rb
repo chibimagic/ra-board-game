@@ -1,6 +1,6 @@
 class Game
   attr_accessor \
-    :player_count,
+    :players,
     :current_player,
     :auction_count,
     :auction_tiles
@@ -27,13 +27,13 @@ class Game
   }
 
   def initialize(
-    player_count,
+    players,
     current_player,
     auction_count,
     auction_tiles
   )
-    raise 'Invalid player count' unless [3, 4, 5].include?(player_count)
-    raise 'Invalid current player' unless (1..player_count).include?(current_player)
+    raise 'Invalid players' unless players.is_a?(Array) && players.all? { |player| player.is_a?(Player) }
+    raise 'Invalid current player' unless (1..players.count).include?(current_player)
     raise 'Invalid auction_count' unless (0..10).include?(auction_count)
     raise 'Invalid auction_tiles' unless auction_tiles.is_a?(Array) && auction_tiles.all? { |tile| tile.is_a?(Tile) }
 
@@ -43,13 +43,25 @@ class Game
     @auction_tiles = auction_tiles
   end
 
-  def self.create_new(player_count)
-    current_player = 1
+  def self.create_new(player_names)
+    unless [3, 4, 5].include?(player_names.length)
+      raise 'Can only play Ra with 3-5 players'
+    end
+
+    sun_values = SUN_DISTRIBUTION.fetch(player_count).shuffle
+    players = player_names.map.with_index do |name, i|
+      suns = sun_values[i].map { |value| Sun.create_new(value) }
+      Player.new(name, suns, [])
+    end
+
+    highest_sun = sun_values.flatten.max
+    current_player = players.find_index { |player| player.suns.find { |sun| sun.value == highest_sun } }
+
     auction_count = 0
     auction_tiles = []
 
     new(
-      player_count,
+      players,
       current_player,
       auction_count,
       auction_tiles

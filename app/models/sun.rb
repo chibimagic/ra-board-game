@@ -9,6 +9,10 @@ class Sun
     @used = used
   end
 
+  def self.create_new(value)
+    new(value, false)
+  end
+
   def use
     @used = true
   end
