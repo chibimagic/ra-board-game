@@ -3,7 +3,8 @@ class Game
     :players,
     :current_player,
     :auction_count,
-    :auction_tiles
+    :auction_tiles,
+    :draw_tiles
 
   SUN_DISTRIBUTION = {
     3 => [
@@ -26,21 +27,63 @@ class Game
     ]
   }
 
+  TILE_TYPES = {
+    RaTile => 30,
+
+    AnubisGodTile => 1,
+    BastetGodTile => 1,
+    ChnumGodTile => 1,
+    HorusGodTile => 1,
+    SethGodTile => 1,
+    SobekGodTile => 1,
+    ThothGodTile => 1,
+    UtGodTile => 1,
+
+    PharoahTile => 25,
+    NileTile => 25,
+    FloodTile => 12,
+
+    ArtCivilizationTile => 5,
+    AgricultureCivilizationTile => 5,
+    ReligionCivilizationTile => 5,
+    AstronomyCivilizationTile => 5,
+    WritingCivilizationTile => 5,
+
+    GoldTile => 5,
+
+    FortressMonumentTile => 5,
+    ObeliskMonumentTile => 5,
+    PalaceMonumentTile => 5,
+    PyramidMonumentTile => 5,
+    SphinxMonumentTile => 5,
+    StatuesMonumentTile => 5,
+    StepPyramidMonumentTile => 5,
+    TemplateMonumentTile => 5,
+
+    FuneralTile => 2,
+    DroughtTile => 2,
+    UnrestTile => 4,
+    EarthquakeTile => 2
+  }
+
   def initialize(
     players,
     current_player,
     auction_count,
-    auction_tiles
+    auction_tiles,
+    draw_tiles
   )
     raise 'Invalid players' unless players.is_a?(Array) && players.all? { |player| player.is_a?(Player) }
     raise 'Invalid current player' unless (1..players.count).include?(current_player)
     raise 'Invalid auction_count' unless (0..10).include?(auction_count)
     raise 'Invalid auction_tiles' unless auction_tiles.is_a?(Array) && auction_tiles.all? { |tile| tile.is_a?(Tile) }
+    raise 'Invalid draw tiles' unless draw_tiles.is_a?(Array) && draw_tiles.all? { |tile| tile.is_a?(Tile) }
 
     @player_count = player_count
     @current_player = current_player
     @auction_count = auction_count
     @auction_tiles = auction_tiles
+    @draw_tiles = draw_tiles
   end
 
   def self.create_new(player_names)
@@ -59,12 +102,14 @@ class Game
 
     auction_count = 0
     auction_tiles = []
+    draw_tiles = TILE_TYPES.map { |tile_class, number| Array.new(number) { tile_class.new } }.flatten
 
     new(
       players,
       current_player,
       auction_count,
-      auction_tiles
+      auction_tiles,
+      draw_tiles
     )
   end
 end
