@@ -5,16 +5,30 @@ class RaTile < Tile
 end
 
 class GodTile < Tile
-  TYPES = [
-    "Anubis",
-    "Bastet",
-    "Chnum",
-    "Horus",
-    "Seth",
-    "Sobek",
-    "Thoth",
-    "Ut"
-  ]
+end
+
+class AnubisGodTile < GodTile
+end
+
+class BastetGodTile < GodTile
+end
+
+class ChnumGodTile < GodTile
+end
+
+class HorusGodTile < GodTile
+end
+
+class SethGodTile < GodTile
+end
+
+class SobekGodTile < GodTile
+end
+
+class ThothGodTile < GodTile
+end
+
+class UtGodTile < GodTile
 end
 
 class PharoahTile < Tile
@@ -27,29 +41,51 @@ class FloodTile < Tile
 end
 
 class CivilizationTile < Tile
-  TYPES = [
-    "Art",
-    "Agriculture",
-    "Religion",
-    "Astronomy",
-    "Writing"
-  ]
+end
+
+class ArtCivilizationTile < CivilizationTile
+end
+
+class AgricultureCivilizationTile < CiviliationTile
+end
+
+class ReligionCivilizationTIle < CivilizationTile
+end
+
+class AstronomyCivilizationTile < CivilizationTile
+end
+
+class WritingCivilizationTile < CivilizationTile
 end
 
 class GoldTile < Tile
 end
 
 class MonumentTile < Tile
-  TYPES = [
-    "Fortress",
-    "Obelisk",
-    "Palace",
-    "Pyramid",
-    "Sphinx",
-    "Statues",
-    "Step pyramid",
-    "Temple"
-  ]
+end
+
+class FortressMonumentTile < MonumentTile
+end
+
+class ObeliskMonumentTile < MonumentTile
+end
+
+class PalaceMonumentTile < MonumentTile
+end
+
+class PyramidMonumentTile < MonumentTile
+end
+
+class SphinxMonumentTile < MonumentTile
+end
+
+class StatuesMonumentTile < MonumentTile
+end
+
+class StepPyramidMonumentTile < StepPyramidMonumentTile
+end
+
+class TemplateMonumentTile < TempleMonumentTile
 end
 
 class DisasterTile < Tile
