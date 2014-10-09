@@ -75,8 +75,8 @@ class Game
   )
     raise 'Invalid players' unless players.is_a?(Array) && players.all? { |player| player.is_a?(Player) }
     raise 'Invalid current player' unless (1..players.count).include?(current_player)
-    raise 'Invalid auction_count' unless (0..10).include?(auction_count)
-    raise 'Invalid auction_tiles' unless auction_tiles.is_a?(Array) && auction_tiles.all? { |tile| tile.is_a?(Tile) }
+    raise 'Invalid auction count' unless (0..10).include?(auction_count)
+    raise 'Invalid auction tiles' unless auction_tiles.is_a?(Array) && auction_tiles.all? { |tile| tile.is_a?(Tile) }
     raise 'Invalid draw tiles' unless draw_tiles.is_a?(Array) && draw_tiles.all? { |tile| tile.is_a?(Tile) }
 
     @player_count = player_count
