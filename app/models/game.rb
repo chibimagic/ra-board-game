@@ -7,6 +7,10 @@ class Game
     :draw_tiles
 
   SUN_DISTRIBUTION = {
+    2 => [
+      [9, 6, 5, 2],
+      [8, 7, 4, 3]
+    ],
     3 => [
       [13, 8, 5, 2],
       [12, 9, 6, 3],
@@ -87,8 +91,8 @@ class Game
   end
 
   def self.create_new(player_names)
-    unless [3, 4, 5].include?(player_names.length)
-      raise 'Can only play Ra with 3-5 players'
+    unless (2..5).include?(player_names.length)
+      raise 'Can only play Ra with 2-5 players'
     end
 
     sun_values = SUN_DISTRIBUTION.fetch(player_count).shuffle
