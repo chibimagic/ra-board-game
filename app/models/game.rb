@@ -111,7 +111,7 @@ class Game
     auction = nil
     auction_count = 0
     auction_tiles = []
-    draw_tiles = TILE_TYPES.map { |tile_class, number| Array.new(number) { tile_class.new } }.flatten
+    draw_tiles = TILE_TYPES.map { |tile_class, number| Array.new(number) { tile_class.new } }.flatten.shuffle
 
     new(
       players,
@@ -121,5 +121,15 @@ class Game
       auction_tiles,
       draw_tiles
     )
+  end
+
+  def draw_tile
+    tile = @draw_tiles.pop
+    if tile < RaTile
+      @auction_count++
+      @auction = Auction.create_new(false, current_player, Array.new(@players.count, nil))
+    else
+      @auction_tiles.push(tile)
+    end
   end
 end
