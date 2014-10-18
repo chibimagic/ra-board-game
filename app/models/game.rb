@@ -2,6 +2,7 @@ class Game
   attr_accessor \
     :players,
     :current_player,
+    :epoch,
     :auction,
     :auction_count,
     :auction_tiles,
@@ -74,6 +75,7 @@ class Game
   def initialize(
     players,
     current_player,
+    epoch,
     auction,
     auction_count,
     auction_tiles,
@@ -81,6 +83,7 @@ class Game
   )
     raise 'Invalid players' unless players.is_a?(Array) && players.all? { |player| player.is_a?(Player) }
     raise 'Invalid current player' unless (1..players.count).include?(current_player)
+    raise 'Invalid epoch' unless (1..3).include?(epoch)
     raise 'Invalid auction' unless auction.is_a?(Auction) || auction.nil?
     raise 'Invalid auction count' unless (0..10).include?(auction_count)
     raise 'Invalid auction tiles' unless auction_tiles.is_a?(Array) && auction_tiles.all? { |tile| tile.is_a?(Tile) }
@@ -88,6 +91,7 @@ class Game
 
     @player_count = player_count
     @current_player = current_player
+    @epoch = epoch
     @auction = auction
     @auction_count = auction_count
     @auction_tiles = auction_tiles
@@ -108,6 +112,7 @@ class Game
     highest_sun = sun_values.flatten.max
     current_player = players.find_index { |player| player.suns.find { |sun| sun.value == highest_sun } }
 
+    epoch = 1
     auction = nil
     auction_count = 0
     auction_tiles = []
@@ -116,6 +121,7 @@ class Game
     new(
       players,
       current_player,
+      epoch,
       auction,
       auction_count,
       auction_tiles,
