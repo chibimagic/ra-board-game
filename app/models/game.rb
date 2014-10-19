@@ -129,6 +129,19 @@ class Game
     )
   end
 
+  def next_players_turn
+    @players.rotate(current_player + 1).each do |potential_player|
+      if potential_player.has_unused_suns
+        @current_player = @players.find_index { |player| player == potential_player }
+        return
+      end
+    end
+    end_epoch
+  end
+
+  def end_epoch
+  end
+
   def draw_tile
     tile = @draw_tiles.pop
     if tile < RaTile
