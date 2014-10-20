@@ -8,6 +8,13 @@ class Game
     :auction_tiles,
     :draw_tiles
 
+  MAX_AUCTIONS = {
+    2 => 6,
+    3 => 8,
+    4 => 9,
+    5 => 10
+  }
+
   SUN_DISTRIBUTION = {
     2 => [
       [9, 6, 5, 2],
@@ -129,6 +136,10 @@ class Game
     )
   end
 
+  def max_auctions
+    MAX_AUCTIONS.fetch(@players.count)
+  end
+
   def next_players_turn
     @players.rotate(current_player + 1).each do |potential_player|
       if potential_player.has_unused_suns
@@ -146,7 +157,11 @@ class Game
     tile = @draw_tiles.pop
     if tile < RaTile
       @auction_count++
-      @auction = Auction.create_new(false, current_player, Array.new(@players.count, nil))
+      if (@auction_count == max_auctions)
+        end_epoch
+      else
+        @auction = Auction.create_new(false, current_player, Array.new(@players.count, nil))
+      end
     else
       @auction_tiles.push(tile)
     end
