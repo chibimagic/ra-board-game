@@ -23,4 +23,16 @@ class Player
   def has_unused_suns
     @suns.any? { |sun| !sun.used }
   end
+
+  def sun_total
+    @suns.inject { |sum, sun| sum + sun.value }
+  end
+
+  def count_tiles(tile_class)
+    @tiles.count { |tile| tile.is_a?(tile_class) }
+  end
+
+  def discard_tiles(tile_class)
+    @tiles.delete_if { |tile| tile.is_a?(tile_class) }
+  end
 end

@@ -79,6 +79,29 @@ class Game
     EarthquakeTile => 2
   }
 
+  CIVILIZATION_POINTS = {
+    3 => 5,
+    4 => 10,
+    5 => 15
+  }
+
+  MONUMENT_DIFFERENT_POINTS = {
+    1 => 1,
+    2 => 2,
+    3 => 3,
+    4 => 4,
+    5 => 5,
+    6 => 6,
+    7 => 10,
+    8 => 15
+  }
+
+  MONUMENT_IDENTICAL_POINTS = {
+    3 => 5,
+    4 => 10,
+    5 => 15
+  }
+
   def initialize(
     players,
     current_player,
@@ -151,6 +174,72 @@ class Game
   end
 
   def end_epoch
+    @auction_tiles = []
+    calculate_score
+    @epoch += 1
+  end
+
+  def calculate_score
+    # Unless everyone is tied, +5 points for most pharoahs, -2 points for least pharoahs
+    # Pharoahs are kept
+    pharoah_counts = @players.map { |player| player.count_tiles(PharaohTile) }
+    if pharoah_counts.max != pharaoh_counts.min
+      @players.find_all { |player| player.count_tiles(PharoahTile) == pharoah_counts.max }.each { |player| player.victory_points += 5 }
+      @players.find_all { |player| player.count_tiles(PharoahTile) == pharoah_counts.min }.each { |player| player.victory_points -= 2 }
+    end
+
+    @players.each do |player|
+      # +2 points per god
+      # Gods are discarded
+      player.victory_points += 2 * player.count_tiles(GodTile)
+        player.discard_tiles(GodTile)
+
+      # If there's at least 1 flood, +1 point per Nile/flood
+      # Floods are discarded, Niles are kept
+      if player.count_tiles(FloodTile) > 0
+        player.victory_points += player.count_tiles(NileTile)
+        player.victory_points += player.count_tiles(FloodTile)
+        player.discard_tiles(FloodTile)
+      end
+
+      # -5 points if no civilizations
+      # +5 for 3 types, +10 for 4 types, +15 for 5 types
+      # Civilizations are discarded
+      if player.count_tiles?(CivilizationTile) == 0
+        player.victory_points -= 5
+      else
+        civilization_types = player.tiles.find_all { |tile| tile.is_a?(CivilizationTile) }.group_by { |tile| tile.class }.count
+        player.victory_points += CIVILIZATION_POINTS.fetch(civilization_types, 0)
+        player.discard_tiles(CivilizationTile)
+      end
+
+      # +3 points per gold
+      # Golds are discarded
+      player.victory_points += 3 * player.count_tiles(GoldTile)
+      player.discard_tiles(GoldTile)
+
+      # Monuments are only scored in the third epoch
+      if @epoch == 3
+        # +1 point/monument type up to 6, +10 for 7 types, +15 for 8 types
+        # +5 points per group of 3, +10 per 4, +15 per 5
+        # Monuments are kept
+        monument_counts = player.tiles.find_all { |tile| tile.is_a?(MonumentTile) }.group_by { |tile| tile.class }
+        player.victory_points += MONUMENT_DIFFERENT_POINTS.fetch(monument_counts.count, 0)
+        monument_counts.each do |monument_class, count|
+          player.victory_points += MONUMENT_IDENTICAL_POINTS.fetch(count, 0)
+        end
+      end
+    end
+
+    # Suns are only scored in the third epoch
+    if @epoch == 3
+      # Unless everyone is tied, +5 for highest suns, -5 for lowest suns
+      sun_counts = @players.map { |player| player.sun_total }
+      if sun_counts.max != sun_counts.min
+        @players.find_all { |player| player.sun_total == sun_counts.max }.each { |player| player.victory_points += 5 }
+        @players.find_all { |player| player.sun_total == sun_counts.min }.each { |player| player.victory_points -= 5 }
+      end
+    end
   end
 
   def draw_tile
