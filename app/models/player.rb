@@ -24,6 +24,10 @@ class Player
     @suns.any? { |sun| !sun.used }
   end
 
+  def max_sun
+    @suns.map { |sun| sun.value }.max
+  end
+
   def sun_total
     @suns.inject { |sum, sun| sum + sun.value }
   end

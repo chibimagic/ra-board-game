@@ -176,7 +176,11 @@ class Game
   def end_epoch
     @auction_tiles = []
     calculate_score
-    @epoch += 1
+    if @epoch < 3
+      @epoch += 1
+    else
+      determine_winner
+    end
   end
 
   def calculate_score
@@ -239,6 +243,17 @@ class Game
         @players.find_all { |player| player.sun_total == sun_counts.max }.each { |player| player.victory_points += 5 }
         @players.find_all { |player| player.sun_total == sun_counts.min }.each { |player| player.victory_points -= 5 }
       end
+    end
+  end
+
+  def determine_winner
+    max_points = @players.map { |player| player.victory_points }.max
+    potential_winners = @players.find_all { |player| player.victory_points == max_points }
+    if potential_winners.count == 1
+      potential_winners[0]
+    else
+      max_sun = potential_winners.map { |player| player.max_sun }.max
+      potential_winners.find { |player| player.max_sun == max_sun }
     end
   end
 
