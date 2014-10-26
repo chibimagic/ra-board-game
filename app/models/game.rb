@@ -270,4 +270,8 @@ class Game
       @auction_tiles.push(tile)
     end
   end
+
+  def invoke_ra
+    @auction = Auction.create_new(true, current_player, @players.count)
+  end
 end
