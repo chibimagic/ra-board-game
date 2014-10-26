@@ -264,7 +264,7 @@ class Game
       if (@auction_count == max_auctions)
         end_epoch
       else
-        @auction = Auction.create_new(false, current_player, Array.new(@players.count, nil))
+        @auction = Auction.create_new(false, current_player, @players.count)
       end
     else
       @auction_tiles.push(tile)
