@@ -32,6 +32,12 @@ class Player
     @suns.inject { |sum, sun| sum + sun.value }
   end
 
+  def replace_sun(winning_value, center_sun)
+    @suns.push(center_sun)
+    winning_index = @suns.find_index { |sun| sun.value == winning_value }
+    @suns.delete_at(winning_index)
+  end
+
   def count_tiles(tile_class)
     @tiles.count { |tile| tile.is_a?(tile_class) }
   end

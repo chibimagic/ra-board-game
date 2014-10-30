@@ -280,4 +280,23 @@ class Game
   def invoke_ra
     @auction = Auction.create_new(true, current_player, @players.count)
   end
+
+  def bid(sun_value)
+    if @auction.nil?
+      raise 'Cannot bid when there is no auction'
+    end
+
+    @auction.bid(current_player, sun_value)
+
+    if @auction.all_bids_in?
+      winner = @players[@auction.winner]
+      winner.tiles.push(@auction_tiles)
+      @auction_tiles = []
+
+      @center_sun.use
+      winning_sun = winner.replace_sun(@aiction.max_bid, @center_sun)
+    end
+
+    next_players_turn
+  end
 end

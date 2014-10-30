@@ -23,8 +23,12 @@ class Auction
     @bids.values.max
   end
 
+  def all_bids_in?
+    bids.count == player.count
+  end
+
   def winner
-    unless bids.count == player_count
+    unless all_bids_in?
       raise 'Not everyone has bid yet'
     end
 
