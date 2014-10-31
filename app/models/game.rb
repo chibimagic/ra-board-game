@@ -277,6 +277,17 @@ class Game
     end
   end
 
+  def play_god_tile(desired_tile_class)
+    @players[current_player].use_god_tile
+    desired_tile_index = @auction_tiles.find_index { |tile| tile.is_a?(desired_tile_class) }
+    if desired_tile_index.nil?
+      raise 'No ' + desired_tile_class.to_s + ' available in the auction track'
+    end
+
+    desired_tile = @auction_tiles.delete_at(desired_tile_index)
+    @players[current_player].tiles.push(desired_tile)
+  end
+
   def invoke_ra
     @auction = Auction.create_new(true, current_player, @players.count)
   end

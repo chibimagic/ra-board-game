@@ -45,4 +45,13 @@ class Player
   def discard_tiles(tile_class)
     @tiles.delete_if { |tile| tile.is_a?(tile_class) }
   end
+
+  def use_god_tile
+    tile_index = @tiles.find_index { |tile| tile.is_a?(GodTile) }
+    if tile_index.nil?
+      raise 'Player does not have a god tile'
+    end
+
+    @tiles.delete_at(tile_index)
+  end
 end
