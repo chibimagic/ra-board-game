@@ -182,6 +182,11 @@ class Game
   def end_epoch
     @auction_tiles = []
     calculate_score
+
+    @players.map do |player|
+      player.suns.each { |sun| sun.reset }
+    end
+
     if @epoch < 3
       @epoch += 1
     else
