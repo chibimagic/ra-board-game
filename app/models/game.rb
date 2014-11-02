@@ -315,4 +315,32 @@ class Game
 
     next_players_turn
   end
+
+  def resolve_disaster_tile(disaster_tile_class, discard_tile_1_class, discard_tile_2_class)
+    unless disaster_tile_class < DisasterTile
+      raise distaster_tile_class.to_s + ' is not a disaster tile'
+    end
+
+    [discard_tile_1_class, discard_tile_2_class].each do |discard_class|
+      unless disaster_tile_class::DESTROYS.include?(discard_class) || discard_class.nil?
+        raise diaster_tile_class.to_s + ' destroys ' + disaster_tile_class::DESTROYS.to_s + ', not ' + discard_class.to_s
+      end
+    end
+
+    destroyable_tiles = disaster_tile_class::DESTROYS.inject { |sum, tile_class| @players[current_player].count_tiles(tile_class) + sum }
+    if discard_tile_1_class.nil? && destroyable_tiles != 0 ||
+      discard_tile_2_class.nil? && destroyable_tiles != 1
+      raise 'Must destroy ' + [destroyable_tiles, 2].max.to_s + ' tiles'
+    end
+
+    if disaster_tile_class == DroughtTile
+      existing_floods = @players[current_player].count_tiles(FloodTile)
+      discarding_floods = [discard_tile_1_class, discard_tile_2_class].count { |tile_class| tile_class == FloodTile }
+      if discarding_floods < 2 && discarding_floods < existing_floods
+        raise 'Must discard floods first for droughts'
+      end
+    end
+
+    @players[current_player].resolve_disaster_tile(disaster_tile_class, discard_tile_1_class, discard_tile_2_class)
+  end
 end

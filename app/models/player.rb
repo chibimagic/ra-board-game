@@ -54,4 +54,16 @@ class Player
 
     @tiles.delete_at(tile_index)
   end
+
+  def resolve_disaster_tile(disaster_tile_class, discard_tile_1_class, discard_tile_2_class)
+    disaster_tile_index = @tiles.find_index { |tile| tile.is_a?(disaster_tile_class) }
+    @tiles.delete_at(diaster_tile_index)
+
+    [discard_tile_1_class, discard_tile_2_class].each do |tile_class|
+      unless tile_class.nil?
+        tile_index = @tiles.find_index { |tile| tile.is_a?(tile_class) }
+        @tiles.delete_at(tile_index)
+      end
+    end
+  end
 end
