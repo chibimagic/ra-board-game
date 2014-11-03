@@ -7,7 +7,8 @@ class Game
     :auction,
     :auction_count,
     :auction_tiles,
-    :draw_tiles
+    :draw_tiles,
+    :disasters_to_resolve
 
   MAX_AUCTIONS = {
     2 => 6,
@@ -111,7 +112,8 @@ class Game
     auction,
     auction_count,
     auction_tiles,
-    draw_tiles
+    draw_tiles,
+    disasters_to_resolve
   )
     raise 'Invalid players' unless players.is_a?(Array) && players.all? { |player| player.is_a?(Player) }
     raise 'Invalid current player' unless (1..players.count).include?(current_player)
@@ -121,6 +123,7 @@ class Game
     raise 'Invalid auction count' unless (0..10).include?(auction_count)
     raise 'Invalid auction tiles' unless auction_tiles.is_a?(Array) && auction_tiles.all? { |tile| tile.is_a?(Tile) }
     raise 'Invalid draw tiles' unless draw_tiles.is_a?(Array) && draw_tiles.all? { |tile| tile.is_a?(Tile) }
+    raise 'Invalid disasters to resolve' unless disasters_to_resolve.is_a?(Integer)
 
     @player_count = player_count
     @current_player = current_player
@@ -130,6 +133,7 @@ class Game
     @auction_count = auction_count
     @auction_tiles = auction_tiles
     @draw_tiles = draw_tiles
+    @disasters_to_resolve = disasters_to_resolve
   end
 
   def self.create_new(player_names)
@@ -152,6 +156,7 @@ class Game
     auction_count = 0
     auction_tiles = []
     draw_tiles = TILE_TYPES.map { |tile_class, number| Array.new(number) { tile_class.new } }.flatten.shuffle
+    disasters_to_resolve = 0
 
     new(
       players,
@@ -161,7 +166,8 @@ class Game
       auction,
       auction_count,
       auction_tiles,
-      draw_tiles
+      draw_tiles,
+      disasters_to_resolve
     )
   end
 
@@ -307,6 +313,7 @@ class Game
     if @auction.all_bids_in?
       winner = @players[@auction.winner]
       winner.tiles.push(@auction_tiles)
+      @disasters_to_resolve = @auction_tiles.count { |tile| tile.is_a?(DisasterTile) }
       @auction_tiles = []
 
       @center_sun.use
