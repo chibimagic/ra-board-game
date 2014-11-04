@@ -275,6 +275,14 @@ class Game
   end
 
   def draw_tile
+    unless @auction.nil?
+      raise 'Cannot draw tile when there is an auction'
+    end
+
+    if @disasters_to_resolve > 0
+      raise 'Cannot draw tile when there are disasters to resolve'
+    end
+
     tile = @draw_tiles.pop
     if tile < RaTile
       @auction_count++
@@ -285,10 +293,19 @@ class Game
       end
     else
       @auction_tiles.push(tile)
+      next_players_turn
     end
   end
 
   def play_god_tile(desired_tile_class)
+    unless @auction.nil?
+      raise 'Cannot play god tile when there is an auction'
+    end
+
+    if @disasters_to_resolve > 0
+      raise 'Cannot play god tile when there are disasters to resolve'
+    end
+
     @players[current_player].use_god_tile
     desired_tile_index = @auction_tiles.find_index { |tile| tile.is_a?(desired_tile_class) }
     if desired_tile_index.nil?
@@ -297,15 +314,29 @@ class Game
 
     desired_tile = @auction_tiles.delete_at(desired_tile_index)
     @players[current_player].tiles.push(desired_tile)
+
+    next_players_turn
   end
 
   def invoke_ra
+    unless @auction.nil?
+      raise 'Cannot invoke ra when there is an auction'
+    end
+
+    if @disasters_to_resolve > 0
+      raise 'Cannot invoke ra when there are disasters to resolve'
+    end
+
     @auction = Auction.create_new(true, current_player, @players.count)
   end
 
   def bid(sun_value)
     if @auction.nil?
       raise 'Cannot bid when there is no auction'
+    end
+
+    if @disasters_to_resolve > 0
+      raise 'Cannot bid when there are disasters to resolve'
     end
 
     @auction.bid(current_player, sun_value)
@@ -324,6 +355,10 @@ class Game
   end
 
   def resolve_disaster_tile(disaster_tile_class, discard_tile_1_class, discard_tile_2_class)
+    unless @disasters_to_resolve > 0
+      raise 'No disaster to resolve'
+    end
+
     unless disaster_tile_class < DisasterTile
       raise distaster_tile_class.to_s + ' is not a disaster tile'
     end
@@ -349,5 +384,10 @@ class Game
     end
 
     @players[current_player].resolve_disaster_tile(disaster_tile_class, discard_tile_1_class, discard_tile_2_class)
+
+    @disasters_to_resolve -= 1
+    if @disasters_to_resolve == 0
+      next_players_turn
+    end
   end
 end
