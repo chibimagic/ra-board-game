@@ -8,7 +8,8 @@ class Game
     :auction_count,
     :auction_tiles,
     :draw_tiles,
-    :disasters_to_resolve
+    :disasters_to_resolve,
+    :winner
 
   MAX_AUCTIONS = {
     2 => 6,
@@ -113,7 +114,8 @@ class Game
     auction_count,
     auction_tiles,
     draw_tiles,
-    disasters_to_resolve
+    disasters_to_resolve,
+    winner
   )
     raise 'Invalid players' unless players.is_a?(Array) && players.all? { |player| player.is_a?(Player) }
     raise 'Invalid current player' unless (1..players.count).include?(current_player)
@@ -124,6 +126,7 @@ class Game
     raise 'Invalid auction tiles' unless auction_tiles.is_a?(Array) && auction_tiles.all? { |tile| tile.is_a?(Tile) }
     raise 'Invalid draw tiles' unless draw_tiles.is_a?(Array) && draw_tiles.all? { |tile| tile.is_a?(Tile) }
     raise 'Invalid disasters to resolve' unless disasters_to_resolve.is_a?(Integer)
+    raise 'Invalid winner' unless winner.nil? || (1..players.count).include?(winner)
 
     @player_count = player_count
     @current_player = current_player
@@ -134,6 +137,7 @@ class Game
     @auction_tiles = auction_tiles
     @draw_tiles = draw_tiles
     @disasters_to_resolve = disasters_to_resolve
+    @winner = winner
   end
 
   def self.create_new(player_names)
@@ -157,6 +161,7 @@ class Game
     auction_tiles = []
     draw_tiles = TILE_TYPES.map { |tile_class, number| Array.new(number) { tile_class.new } }.flatten.shuffle
     disasters_to_resolve = 0
+    winner = nil
 
     new(
       players,
@@ -167,7 +172,8 @@ class Game
       auction_count,
       auction_tiles,
       draw_tiles,
-      disasters_to_resolve
+      disasters_to_resolve,
+      winner
     )
   end
 
@@ -267,10 +273,10 @@ class Game
     max_points = @players.map { |player| player.victory_points }.max
     potential_winners = @players.find_all { |player| player.victory_points == max_points }
     if potential_winners.count == 1
-      potential_winners[0]
+      @winner = potential_winners[0]
     else
       max_sun = potential_winners.map { |player| player.max_sun }.max
-      potential_winners.find { |player| player.max_sun == max_sun }
+      @winner = potential_winners.find { |player| player.max_sun == max_sun }
     end
   end
 
