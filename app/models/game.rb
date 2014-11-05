@@ -348,16 +348,20 @@ class Game
     @auction.bid(current_player, sun_value)
 
     if @auction.all_bids_in?
-      winner = @players[@auction.winner]
-      winner.tiles.push(@auction_tiles)
-      @disasters_to_resolve = @auction_tiles.count { |tile| tile.is_a?(DisasterTile) }
-      @auction_tiles = []
-
-      @center_sun.use
-      winning_sun = winner.replace_sun(@aiction.max_bid, @center_sun)
+      resolve_auction
     end
 
     next_players_turn
+  end
+
+  def resolve_auction
+    winner = @players[@auction.winner]
+    winner.tiles.push(@auction_tiles)
+    @disasters_to_resolve = @auction_tiles.count { |tile| tile.is_a?(DisasterTile) }
+    @auction_tiles = []
+
+    @center_sun.use
+    winning_sun = winner.replace_sun(@aiction.max_bid, @center_sun)
   end
 
   def resolve_disaster_tile(disaster_tile_class, discard_tile_1_class, discard_tile_2_class)
