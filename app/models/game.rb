@@ -190,6 +190,7 @@ class Game
     end
     end_epoch
   end
+  private :next_players_turn
 
   def end_epoch
     @auction_tiles = []
@@ -205,6 +206,7 @@ class Game
       determine_winner
     end
   end
+  private :end_epoch
 
   def calculate_score
     # Unless everyone is tied, +5 points for most pharoahs, -2 points for least pharoahs
@@ -268,6 +270,7 @@ class Game
       end
     end
   end
+  private :calculate_score
 
   def determine_winner
     max_points = @players.map { |player| player.victory_points }.max
@@ -279,6 +282,7 @@ class Game
       @winner = potential_winners.find { |player| player.max_sun == max_sun }
     end
   end
+  private :determine_winner
 
   def draw_tile
     unless @auction.nil?
@@ -363,6 +367,7 @@ class Game
     @center_sun.use
     winning_sun = winner.replace_sun(@aiction.max_bid, @center_sun)
   end
+  private :resolve_auction
 
   def resolve_disaster_tile(disaster_tile_class, discard_tile_1_class, discard_tile_2_class)
     unless @disasters_to_resolve > 0
