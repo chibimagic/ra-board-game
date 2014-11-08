@@ -353,9 +353,9 @@ class Game
 
     if @auction.all_bids_in?
       resolve_auction
+    else
+      next_players_turn
     end
-
-    next_players_turn
   end
 
   def resolve_auction
@@ -366,6 +366,11 @@ class Game
 
     @center_sun.use
     winning_sun = winner.replace_sun(@aiction.max_bid, @center_sun)
+    @auction = nil
+
+    if @disasters_to_resolve == 0
+      next_players_turn
+    end
   end
   private :resolve_auction
 
