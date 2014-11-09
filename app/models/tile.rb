@@ -46,10 +46,10 @@ end
 class ArtCivilizationTile < CivilizationTile
 end
 
-class AgricultureCivilizationTile < CiviliationTile
+class AgricultureCivilizationTile < CivilizationTile
 end
 
-class ReligionCivilizationTIle < CivilizationTile
+class ReligionCivilizationTile < CivilizationTile
 end
 
 class AstronomyCivilizationTile < CivilizationTile
@@ -82,10 +82,10 @@ end
 class StatuesMonumentTile < MonumentTile
 end
 
-class StepPyramidMonumentTile < StepPyramidMonumentTile
+class StepPyramidMonumentTile < MonumentTile
 end
 
-class TemplateMonumentTile < TempleMonumentTile
+class TemplateMonumentTile < MonumentTile
 end
 
 class DisasterTile < Tile
