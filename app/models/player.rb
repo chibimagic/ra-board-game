@@ -3,7 +3,7 @@ class Player
 
   def initialize(name, suns, tiles, victory_points)
     raise 'Invalid name' unless name.is_a?(String)
-    raise 'Invalid suns' unless suns.is_a?(Array) && suns.length == 3 && suns.all? { |sun| sun.is_a?(Sun) }
+    raise 'Invalid suns' unless suns.is_a?(Array) && suns.all? { |sun| sun.is_a?(Sun) }
     raise 'Invalid tiles' unless tiles.is_a?(Array) && tiles.all? { |tile| tile.is_a?(Tile) }
     raise 'Invalid victory points' unless victory_points.is_a?(Integer)
 
