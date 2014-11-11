@@ -118,7 +118,7 @@ class Game
     winner
   )
     raise 'Invalid players' unless players.is_a?(Array) && players.all? { |player| player.is_a?(Player) }
-    raise 'Invalid current player' unless (1..players.count).include?(current_player)
+    raise 'Invalid current player' unless (0..players.count - 1).include?(current_player)
     raise 'Invalid epoch' unless (1..3).include?(epoch)
     raise 'Invalid center sun' unless center_sun.is_a?(Sun)
     raise 'Invalid auction' unless auction.is_a?(Auction) || auction.nil?
