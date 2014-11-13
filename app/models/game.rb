@@ -128,7 +128,7 @@ class Game
     raise 'Invalid disasters to resolve' unless disasters_to_resolve.is_a?(Integer)
     raise 'Invalid winner' unless winner.nil? || (1..players.count).include?(winner)
 
-    @player_count = player_count
+    @player = players
     @current_player = current_player
     @epoch = epoch
     @center_sun = center_sun
@@ -145,7 +145,7 @@ class Game
       raise 'Can only play Ra with 2-5 players'
     end
 
-    sun_values = SUN_DISTRIBUTION.fetch(player_count).shuffle
+    sun_values = SUN_DISTRIBUTION.fetch(player_names.length).shuffle
     players = player_names.map.with_index do |name, i|
       suns = sun_values[i].map { |value| Sun.create_new(value) }
       Player.new(name, suns, [])
