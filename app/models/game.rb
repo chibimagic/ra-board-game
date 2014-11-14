@@ -148,7 +148,7 @@ class Game
     sun_values = SUN_DISTRIBUTION.fetch(player_names.length).shuffle
     players = player_names.map.with_index do |name, i|
       suns = sun_values[i].map { |value| Sun.create_new(value) }
-      Player.new(name, suns, [])
+      Player.create_new(name, suns)
     end
 
     highest_sun = sun_values.flatten.max
