@@ -1,3 +1,8 @@
+require_relative 'auction.rb'
+require_relative 'player.rb'
+require_relative 'tile.rb'
+require_relative 'sun.rb'
+
 class Game
   attr_accessor \
     :players,
