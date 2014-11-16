@@ -13,5 +13,7 @@ class Test < MiniTest::Test
     g = Game.create_new(['a', 'b'])
     e = assert_raises(RuntimeError) { g.bid(1) }
     assert_equal("Cannot bid when there is no auction", e.message)
+    e = assert_raises(RuntimeError) { g.resolve_disaster_tile(FuneralTile, GodTile, GodTile) }
+    assert_equal("No disaster to resolve", e.message)
   end
 end
