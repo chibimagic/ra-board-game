@@ -14,6 +14,10 @@ class Sun
   end
 
   def use
+    if @used
+      raise 'Already used'
+    end
+
     @used = true
   end
 
