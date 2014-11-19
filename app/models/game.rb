@@ -133,7 +133,7 @@ class Game
     raise 'Invalid disasters to resolve' unless disasters_to_resolve.is_a?(Integer)
     raise 'Invalid winner' unless winner.nil? || (1..players.count).include?(winner)
 
-    @player = players
+    @players = players
     @current_player = current_player
     @epoch = epoch
     @center_sun = center_sun
