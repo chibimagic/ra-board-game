@@ -16,4 +16,17 @@ class Test < MiniTest::Test
     e = assert_raises(RuntimeError) { g.resolve_disaster_tile(FuneralTile, GodTile, GodTile) }
     assert_equal("No disaster to resolve", e.message)
   end
+
+  def test_game_stage_auction
+    g = Game.create_new(['a', 'b'])
+    g.invoke_ra
+    e = assert_raises(RuntimeError) { g.invoke_ra }
+    assert_equal("Cannot invoke ra when there is an auction", e.message)
+    e = assert_raises(RuntimeError) { g.draw_tile }
+    assert_equal("Cannot draw tile when there is an auction", e.message)
+    e = assert_raises(RuntimeError) { g.play_god_tile(CivilizationTile) }
+    assert_equal("Cannot play god tile when there is an auction", e.message)
+    e = assert_raises(RuntimeError) { g.resolve_disaster_tile(FuneralTile, GodTile, GodTile) }
+    assert_equal("No disaster to resolve", e.message)
+  end
 end
