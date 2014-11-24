@@ -15,7 +15,7 @@ class Sun
 
   def use
     if @used
-      raise 'Already used'
+      raise 'Cannot reuse sun'
     end
 
     @used = true

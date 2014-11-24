@@ -2,6 +2,15 @@ require 'minitest/autorun'
 require_relative '../app/models/game.rb'
 
 class Test < MiniTest::Test
+  def test_sun_use
+    s = Sun.create_new(1)
+    s.use
+    e = assert_raises(RuntimeError) { s.use }
+    assert_equal("Cannot reuse sun", e.message)
+    s.reset
+    s.use
+  end
+
   def test_player_count
     e = assert_raises(RuntimeError) { Game.create_new(['a']) }
     assert_equal("Can only play Ra with 2-5 players", e.message)
