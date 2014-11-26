@@ -36,7 +36,7 @@ class Auction
   end
 
   def bid(player_index, bid)
-    if !bid.nil? && bid < max_bid
+    if !bid.nil? && !max_bid.nil? && bid < max_bid
       raise 'Bid must be higher than ' + max_bid.to_s
     end
 
