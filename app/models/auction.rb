@@ -24,7 +24,7 @@ class Auction
   end
 
   def all_bids_in?
-    bids.count == player.count
+    bids.count == @player_count
   end
 
   def winner
