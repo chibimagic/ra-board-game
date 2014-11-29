@@ -22,6 +22,13 @@ class Test < MiniTest::Test
     assert_equal(3, a.winner)
   end
 
+  def test_auction_rebid
+    a = Auction.create_new(true, 1, 3)
+    a.bid(1, 1)
+    e = assert_raises(RuntimeError) { a.bid(1, 2) }
+    assert_equal("Player 1 has already bid 1", e.message)
+  end
+
   def test_player_count
     e = assert_raises(RuntimeError) { Game.create_new(['a']) }
     assert_equal("Can only play Ra with 2-5 players", e.message)
