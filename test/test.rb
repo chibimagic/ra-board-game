@@ -14,6 +14,14 @@ class Test < MiniTest::Test
     s.use
   end
 
+  def test_auction_winner
+    a = Auction.create_new(true, 1, 3)
+    a.bid(1, 1)
+    a.bid(2, 2)
+    a.bid(3, 3)
+    assert_equal(3, a.winner)
+  end
+
   def test_player_count
     e = assert_raises(RuntimeError) { Game.create_new(['a']) }
     assert_equal("Can only play Ra with 2-5 players", e.message)
