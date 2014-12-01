@@ -22,6 +22,13 @@ class Test < MiniTest::Test
     assert_equal(3, a.winner)
   end
 
+  def test_auction_lower_bid
+    a = Auction.create_new(true, 1, 3)
+    a.bid(1, 3)
+    e = assert_raises(RuntimeError) { a.bid(2, 2) }
+    assert_equal("Bid must be higher than 3", e.message)
+  end
+
   def test_auction_rebid
     a = Auction.create_new(true, 1, 3)
     a.bid(1, 1)
