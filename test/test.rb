@@ -36,6 +36,18 @@ class Test < MiniTest::Test
     assert_equal("Player 1 has already bid 1", e.message)
   end
 
+  def test_auction_force_bid
+    a1 = Auction.create_new(false, 3, 3)
+    a1.bid(1, nil)
+    a1.bid(2, nil)
+    a1.bid(3, nil)
+    a2 = Auction.create_new(true, 3, 3)
+    a2.bid(1, nil)
+    a2.bid(2, nil)
+    e = assert_raises(RuntimeError) { a2.bid(3, nil) }
+    assert_equal("For voluntarily invoked auctions, the Ra player must bid if all other players pass", e.message)
+  end
+
   def test_player_count
     e = assert_raises(RuntimeError) { Game.create_new(['a']) }
     assert_equal("Can only play Ra with 2-5 players", e.message)

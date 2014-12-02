@@ -45,7 +45,7 @@ class Auction
     end
 
     if bid.nil? && player_index == ra_player && @voluntary && @bids.values.all? { |value| value.nil? }
-      raise 'For voluntarily invoked auctions, the ra player must bid if all other players pass'
+      raise 'For voluntarily invoked auctions, the Ra player must bid if all other players pass'
     end
 
     @bids[player_index] = bid
