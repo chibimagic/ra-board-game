@@ -22,6 +22,12 @@ class Test < MiniTest::Test
     assert_equal(3, a.winner)
   end
 
+  def test_auction_incomplete
+    a = Auction.create_new(true, 1, 3)
+    e = assert_raises(RuntimeError) { a.winner }
+    assert_equal("Not everyone has bid yet", e.message)
+  end
+
   def test_auction_lower_bid
     a = Auction.create_new(true, 1, 3)
     a.bid(1, 3)
