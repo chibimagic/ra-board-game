@@ -291,7 +291,15 @@ class Game
   end
   private :determine_winner
 
-  def draw_tile
+  # Specify tile_class for testing only
+  def draw_tile(tile_class = nil)
+    if tile_class.nil?
+      drawn_tile = @draw_tiles.pop
+    else
+      tile_index = @draw_tiles.find_index { |tile| tile.is_a?(tile_class) }
+      drawn_tile = @draw_tiles.delete_at(tile_index)
+    end
+
     unless @auction.nil?
       raise 'Cannot draw tile when there is an auction'
     end
@@ -300,8 +308,7 @@ class Game
       raise 'Cannot draw tile when there are disasters to resolve'
     end
 
-    tile = @draw_tiles.pop
-    if tile < RaTile
+    if drawn_tile < RaTile
       @auction_count++
       if (@auction_count == max_auctions)
         end_epoch
@@ -309,7 +316,7 @@ class Game
         @auction = Auction.create_new(false, current_player, @players.count)
       end
     else
-      @auction_tiles.push(tile)
+      @auction_tiles.push(drawn_tile)
       next_players_turn
     end
   end
