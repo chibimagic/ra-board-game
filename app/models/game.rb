@@ -308,7 +308,7 @@ class Game
       raise 'Cannot draw tile when there are disasters to resolve'
     end
 
-    if drawn_tile < RaTile
+    if drawn_tile.is_a?(RaTile)
       @auction_count++
       if (@auction_count == max_auctions)
         end_epoch
