@@ -363,13 +363,15 @@ class Game
       raise 'Cannot bid when there are disasters to resolve'
     end
 
-    sun = @players[current_player].suns.find { |sun| sun.value == sun_value }
-    if sun.nil?
-      raise 'Player does not have sun with value ' + sun_value.to_s
-    end
+    unless sun_value.nil?
+      sun = @players[current_player].suns.find { |sun| sun.value == sun_value }
+      if sun.nil?
+        raise 'Player does not have sun with value ' + sun_value.to_s
+      end
 
-    if sun.used
-      raise 'Sun with value ' + sun_value.to_s + ' has already been used'
+      if sun.used
+        raise 'Sun with value ' + sun_value.to_s + ' has already been used'
+      end
     end
 
     @auction.bid(current_player, sun_value)
