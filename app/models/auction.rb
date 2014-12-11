@@ -20,7 +20,7 @@ class Auction
   end
 
   def max_bid
-    @bids.values.max
+    @bids.values.compact.max
   end
 
   def all_bids_in?
