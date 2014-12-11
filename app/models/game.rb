@@ -352,6 +352,7 @@ class Game
     end
 
     @auction = Auction.create_new(true, current_player, @players.count)
+    next_players_turn
   end
 
   def bid(sun_value)
