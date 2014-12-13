@@ -360,10 +360,6 @@ class Game
       raise 'Cannot bid when there is no auction'
     end
 
-    if @disasters_to_resolve > 0
-      raise 'Cannot bid when there are disasters to resolve'
-    end
-
     unless sun_value.nil?
       sun = @players[current_player].suns.find { |sun| sun.value == sun_value }
       if sun.nil?
