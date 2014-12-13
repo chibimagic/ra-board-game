@@ -26,4 +26,19 @@ class GameTest < MiniTest::Test
     e = assert_raises(RuntimeError) { g.resolve_disaster_tile(FuneralTile, GodTile, GodTile) }
     assert_equal("No disaster to resolve", e.message)
   end
+
+  def test_stage_disaster
+    g = Game.create_new(['a', 'b'])
+    g.draw_tile(FuneralTile)
+    sun_value = g.players[g.current_player].suns.first.value
+    g.invoke_ra
+    g.bid(nil)
+    g.bid(sun_value)
+    e = assert_raises(RuntimeError) { g.invoke_ra }
+    assert_equal("Cannot invoke ra when there are disasters to resolve", e.message)
+    e = assert_raises(RuntimeError) { g.draw_tile }
+    assert_equal("Cannot draw tile when there are disasters to resolve", e.message)
+    e = assert_raises(RuntimeError) { g.play_god_tile(CivilizationTile) }
+    assert_equal("Cannot play god tile when there are disasters to resolve", e.message)
+  end
 end
