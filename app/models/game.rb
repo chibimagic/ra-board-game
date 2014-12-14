@@ -309,7 +309,7 @@ class Game
     end
 
     if drawn_tile.is_a?(RaTile)
-      @auction_count++
+      @auction_count += 1
       if (@auction_count == max_auctions)
         end_epoch
       else
