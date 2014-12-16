@@ -41,4 +41,11 @@ class GameTest < MiniTest::Test
     e = assert_raises(RuntimeError) { g.play_god_tile(CivilizationTile) }
     assert_equal("Cannot play god tile when there are disasters to resolve", e.message)
   end
+
+  def test_auction_creation
+    g = Game.create_new(['a', 'b'])
+    assert_equal(nil, g.auction)
+    g.draw_tile(RaTile)
+    assert_instance_of(Auction, g.auction)
+  end
 end
