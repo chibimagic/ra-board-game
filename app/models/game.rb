@@ -330,6 +330,10 @@ class Game
       raise 'Cannot play god tile when there are disasters to resolve'
     end
 
+    if desired_tile_class == GodTile || desired_tile_class < GodTile
+      raise 'Cannot use god tile to take god tile'
+    end
+
     @players[current_player].use_god_tile
     desired_tile_index = @auction_tiles.find_index { |tile| tile.is_a?(desired_tile_class) }
     if desired_tile_index.nil?
