@@ -79,7 +79,7 @@ class Game
     SphinxMonumentTile => 5,
     StatuesMonumentTile => 5,
     StepPyramidMonumentTile => 5,
-    TemplateMonumentTile => 5,
+    TempleMonumentTile => 5,
 
     FuneralTile => 2,
     DroughtTile => 2,

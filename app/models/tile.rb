@@ -85,7 +85,7 @@ end
 class StepPyramidMonumentTile < MonumentTile
 end
 
-class TemplateMonumentTile < MonumentTile
+class TempleMonumentTile < MonumentTile
 end
 
 class DisasterTile < Tile
