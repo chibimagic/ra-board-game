@@ -48,4 +48,12 @@ class GameTest < MiniTest::Test
     g.draw_tile(RaTile)
     assert_instance_of(Auction, g.auction)
   end
+
+  def test_god_tile_for_god_tile
+    g = Game.create_new(['a', 'b'])
+    g.draw_tile(GodTile)
+    g.players[g.current_player].tiles.push(GodTile.new)
+    e = assert_raises(RuntimeError) { g.play_god_tile(GodTile) }
+    assert_equal("Cannot use god tile to take god tile", e.message)
+  end
 end
