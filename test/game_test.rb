@@ -56,4 +56,12 @@ class GameTest < MiniTest::Test
     e = assert_raises(RuntimeError) { g.play_god_tile(GodTile) }
     assert_equal("Cannot use god tile to take god tile", e.message)
   end
+
+  def test_god_tile_no_available_tile
+    g = Game.create_new(['a', 'b'])
+    g.draw_tile(CivilizationTile)
+    g.players[g.current_player].tiles.push(GodTile.new)
+    e = assert_raises(RuntimeError) { g.play_god_tile(NileTile) }
+    assert_equal("No Nile tile available in the auction track", e.message)
+  end
 end
