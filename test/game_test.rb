@@ -49,6 +49,13 @@ class GameTest < MiniTest::Test
     assert_instance_of(Auction, g.auction)
   end
 
+  def test_bid_nonexistent_sun
+    g = Game.create_new(['a', 'b'])
+    g.invoke_ra
+    e = assert_raises(RuntimeError) { g.bid(1) }
+    assert_equal("Player does not have sun with value 1", e.message)
+  end
+
   def test_god_tile_for_god_tile
     g = Game.create_new(['a', 'b'])
     g.draw_tile(GodTile)
