@@ -56,6 +56,18 @@ class GameTest < MiniTest::Test
     assert_equal("Player does not have sun with value 1", e.message)
   end
 
+  def test_bid_used_sun
+    g = Game.create_new(['a', 'b'])
+    g.invoke_ra
+    sun1_value = g.players[g.current_player].suns.first.value
+    g.bid(sun1_value)
+    sun2_value = g.players[g.current_player].suns.first.value
+    g.bid(sun2_value)
+    g.invoke_ra
+    e = assert_raises(RuntimeError) { g.bid(1) }
+    assert_equal("Sun with value 1 has already been used", e.message)
+  end
+
   def test_god_tile_for_god_tile
     g = Game.create_new(['a', 'b'])
     g.draw_tile(GodTile)
