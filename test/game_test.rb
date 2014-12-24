@@ -66,6 +66,17 @@ class GameTest < MiniTest::Test
     assert_equal("Sun with value 1 has already been used", e.message)
   end
 
+  def test_god_tile
+    @g.draw_tile
+    tile_class = @g.auction_tiles[0].class
+    player_tiles = @g.players[@g.current_player].tiles
+    player_tiles.push(GodTile.new)
+    @g.play_god_tile(tile_class)
+    assert_equal([], @g.auction_tiles)
+    assert_equal(1, player_tiles.count)
+    assert_instance_of(tile_class, player_tiles[0])
+  end
+
   def test_god_tile_for_god_tile
     @g.draw_tile(GodTile)
     @g.players[@g.current_player].tiles.push(GodTile.new)
