@@ -67,7 +67,7 @@ class GameTest < MiniTest::Test
   end
 
   def test_god_tile
-    @g.draw_tile
+    @g.draw_tile(GoldTile)
     tile_class = @g.auction_tiles[0].class
     player_tiles = @g.players[@g.current_player].tiles
     player_tiles.push(GodTile.new)
