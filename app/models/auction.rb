@@ -32,7 +32,7 @@ class Auction
       raise 'Not everyone has bid yet'
     end
 
-    @bids.key(max_bid)
+    max_bid.nil? ? nil : @bids.key(max_bid)
   end
 
   def bid(player_index, bid)
