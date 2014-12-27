@@ -207,7 +207,7 @@ class Game
 
     if @epoch < 3
       @epoch += 1
-      highest_sun = @players.map { |player| player.suns }.max_by { |sun| sun.value }
+      highest_sun = @players.map { |player| player.max_sun }
       @current_player = @players.find_index { |player| player.max_sun == highest_sun }
     else
       determine_winner
