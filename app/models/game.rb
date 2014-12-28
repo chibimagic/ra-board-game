@@ -241,7 +241,7 @@ class Game
       # -5 points if no civilizations
       # +5 for 3 types, +10 for 4 types, +15 for 5 types
       # Civilizations are discarded
-      if player.count_tiles?(CivilizationTile) == 0
+      if player.count_tiles(CivilizationTile) == 0
         player.victory_points -= 5
       else
         civilization_types = player.tiles.find_all { |tile| tile.is_a?(CivilizationTile) }.group_by { |tile| tile.class }.count
