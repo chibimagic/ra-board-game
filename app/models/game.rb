@@ -60,7 +60,7 @@ class Game
     ThothGodTile => 1,
     UtGodTile => 1,
 
-    PharoahTile => 25,
+    PharaohTile => 25,
     NileTile => 25,
     FloodTile => 12,
 
@@ -216,12 +216,12 @@ class Game
   private :end_epoch
 
   def calculate_score
-    # Unless everyone is tied, +5 points for most pharoahs, -2 points for least pharoahs
-    # Pharoahs are kept
-    pharoah_counts = @players.map { |player| player.count_tiles(PharaohTile) }
-    if pharoah_counts.max != pharaoh_counts.min
-      @players.find_all { |player| player.count_tiles(PharoahTile) == pharoah_counts.max }.each { |player| player.victory_points += 5 }
-      @players.find_all { |player| player.count_tiles(PharoahTile) == pharoah_counts.min }.each { |player| player.victory_points -= 2 }
+    # Unless everyone is tied, +5 points for most pharaohs, -2 points for least pharaohs
+    # Pharaohs are kept
+    pharaoh_counts = @players.map { |player| player.count_tiles(PharaohTile) }
+    if pharaoh_counts.max != pharaoh_counts.min
+      @players.find_all { |player| player.count_tiles(PharaohTile) == pharaoh_counts.max }.each { |player| player.victory_points += 5 }
+      @players.find_all { |player| player.count_tiles(PharaohTile) == pharaoh_counts.min }.each { |player| player.victory_points -= 2 }
     end
 
     @players.each do |player|

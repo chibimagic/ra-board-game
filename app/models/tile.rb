@@ -44,8 +44,8 @@ class UtGodTile < GodTile
   TITLE = 'Ut'
 end
 
-class PharoahTile < Tile
-  TITLE = 'Pharoah'
+class PharaohTile < Tile
+  TITLE = 'Pharaoh'
 end
 
 class NileTile < Tile
@@ -123,7 +123,7 @@ end
 
 class FuneralTile < DisasterTile
   TITLE = 'Funeral'
-  DESTROYS = [PharoahTile]
+  DESTROYS = [PharaohTile]
 end
 
 class DroughtTile < DisasterTile
