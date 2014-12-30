@@ -385,13 +385,15 @@ class Game
   end
 
   def resolve_auction
-    winner = @players[@auction.winner]
-    winner.tiles.push(@auction_tiles)
-    @disasters_to_resolve = @auction_tiles.count { |tile| tile.is_a?(DisasterTile) }
-    @auction_tiles = []
+    unless @auction.winner.nil?
+      winner = @players[@auction.winner]
+      winner.tiles.push(@auction_tiles)
+      @disasters_to_resolve = @auction_tiles.count { |tile| tile.is_a?(DisasterTile) }
+      @auction_tiles = []
+      @center_sun.use
+      winning_sun = winner.replace_sun(@auction.max_bid, @center_sun)
+    end
 
-    @center_sun.use
-    winning_sun = winner.replace_sun(@auction.max_bid, @center_sun)
     @auction = nil
 
     if @disasters_to_resolve == 0
