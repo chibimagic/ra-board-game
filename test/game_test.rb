@@ -90,4 +90,14 @@ class GameTest < MiniTest::Test
     e = assert_raises(RuntimeError) { @g.play_god_tile(NileTile) }
     assert_equal("No Nile tile available in the auction track", e.message)
   end
+
+  def test_end_epoch
+    5.times do
+      @g.draw_tile(RaTile)
+      @g.bid(nil)
+      @g.bid(nil)
+    end
+    @g.draw_tile(RaTile)
+    assert_equal(2, @g.epoch)
+  end
 end
