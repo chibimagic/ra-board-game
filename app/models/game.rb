@@ -392,6 +392,7 @@ class Game
       @auction_tiles = []
       @center_sun.use
       winning_sun = winner.replace_sun(@auction.max_bid, @center_sun)
+      @center_sun = winning_sun
     end
 
     @auction = nil
