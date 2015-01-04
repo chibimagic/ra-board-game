@@ -20,7 +20,7 @@ class Player
     new(name, suns, tiles, victory_points)
   end
 
-  def has_unused_suns
+  def has_unused_suns?
     @suns.any? { |sun| !sun.used }
   end
 

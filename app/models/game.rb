@@ -188,7 +188,7 @@ class Game
 
   def next_players_turn
     @players.rotate(current_player + 1).each do |potential_player|
-      if potential_player.has_unused_suns
+      if potential_player.has_unused_suns?
         @current_player = @players.find_index { |player| player == potential_player }
         return
       end
@@ -313,7 +313,7 @@ class Game
       if (@auction_count == max_auctions)
         end_epoch
       else
-        @auction = Auction.create_new(false, current_player, @players.count { |player| player.has_unused_suns })
+        @auction = Auction.create_new(false, current_player, @players.count { |player| player.has_unused_suns? })
       end
     else
       @auction_tiles.push(drawn_tile)
@@ -355,7 +355,7 @@ class Game
       raise 'Cannot invoke ra when there are disasters to resolve'
     end
 
-    @auction = Auction.create_new(true, current_player, @players.count { |player| player.has_unused_suns })
+    @auction = Auction.create_new(true, current_player, @players.count { |player| player.has_unused_suns? })
     next_players_turn
   end
 
