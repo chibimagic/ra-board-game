@@ -91,13 +91,25 @@ class GameTest < MiniTest::Test
     assert_equal("No Nile tile available in the auction track", e.message)
   end
 
-  def test_end_epoch
+  def test_end_epoch_auctions
     5.times do
       @g.draw_tile(RaTile)
       @g.bid(nil)
       @g.bid(nil)
     end
     @g.draw_tile(RaTile)
+    assert_equal(2, @g.epoch)
+  end
+
+  def test_end_epoch_suns
+    8.times do
+      max_unused_sun = @g.players[@g.current_player].suns.map { |sun| sun.used ? nil : sun.value }.compact.max
+      @g.invoke_ra
+      unless @g.auction.ra_player == @g.current_player
+        @g.bid(nil)
+      end
+      @g.bid(max_unused_sun)
+    end
     assert_equal(2, @g.epoch)
   end
 end
