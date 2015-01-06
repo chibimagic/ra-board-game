@@ -418,7 +418,7 @@ class Game
       end
     end
 
-    destroyable_tiles = disaster_tile_class::DESTROYS.inject { |sum, tile_class| @players[current_player].count_tiles(tile_class) + sum }
+    destroyable_tiles = disaster_tile_class::DESTROYS.inject(0) { |sum, tile_class| @players[current_player].count_tiles(tile_class) + sum }
     if discard_tile_1_class.nil? && destroyable_tiles != 0 ||
       discard_tile_2_class.nil? && destroyable_tiles != 1
       raise 'Must destroy ' + [destroyable_tiles, 2].max.to_s + ' tiles'
