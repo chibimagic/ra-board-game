@@ -112,4 +112,17 @@ class GameTest < MiniTest::Test
     end
     assert_equal(2, @g.epoch)
   end
+
+  def test_disaster_tile
+    assert_equal(0, @g.disasters_to_resolve)
+    @g.draw_tile(FuneralTile)
+    assert_equal(0, @g.disasters_to_resolve)
+    max_sun = @g.players[@g.current_player].max_sun
+    @g.invoke_ra
+    @g.bid(nil)
+    @g.bid(max_sun)
+    assert_equal(1, @g.disasters_to_resolve)
+    @g.resolve_disaster_tile(FuneralTile, nil, nil)
+    assert_equal(0, @g.disasters_to_resolve)
+  end
 end
