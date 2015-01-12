@@ -387,7 +387,7 @@ class Game
   def resolve_auction
     unless @auction.winner.nil?
       winner = @players[@auction.winner]
-      winner.tiles.push(@auction_tiles)
+      @auction_tiles.each { |tile| winner.tiles.push(tile) }
       @disasters_to_resolve = @auction_tiles.count { |tile| tile.is_a?(DisasterTile) }
       @auction_tiles = []
       @center_sun.use
