@@ -409,7 +409,7 @@ class Game
     end
 
     unless disaster_tile_class < DisasterTile
-      raise distaster_tile_class.to_s + ' is not a disaster tile'
+      raise disaster_tile_class.to_s + ' is not a disaster tile'
     end
 
     [discard_tile_1_class, discard_tile_2_class].each do |discard_class|
