@@ -414,7 +414,7 @@ class Game
 
     [discard_tile_1_class, discard_tile_2_class].each do |discard_class|
       unless disaster_tile_class::DESTROYS.include?(discard_class) || discard_class.nil?
-        raise disaster_tile_class.to_s + ' destroys ' + disaster_tile_class::DESTROYS.to_s + ', not ' + discard_class.to_s
+        raise disaster_tile_class.to_s + ' destroys ' + disaster_tile_class::DESTROYS.join(' or ') + ', not ' + discard_class.to_s
       end
     end
 
