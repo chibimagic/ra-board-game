@@ -134,4 +134,15 @@ class GameTest < MiniTest::Test
     e = assert_raises(RuntimeError) { @g.resolve_disaster_tile(PharaohTile, nil, nil) }
     assert_equal("Pharaoh tile is not a disaster tile", e.message)
   end
+
+  def test_disaster_tile_destroys_class
+    @g.draw_tile(FuneralTile)
+    @g.invoke_ra
+    @g.bid(nil)
+    @g.bid(@g.players[@g.current_player].suns[0].value)
+    e = assert_raises(RuntimeError) { @g.resolve_disaster_tile(FuneralTile, NileTile, FloodTile) }
+    assert_equal("Funeral tile destroys Pharaoh tile, not Nile tile", e.message)
+    e = assert_raises(RuntimeError) { @g.resolve_disaster_tile(FuneralTile, FloodTile, NileTile) }
+    assert_equal("Funeral tile destroys Pharaoh tile, not Flood tile", e.message)
+  end
 end
